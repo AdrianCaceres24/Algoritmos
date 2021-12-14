@@ -1,0 +1,106 @@
+<html>
+	<head>
+		<style>input{border:none;border-radius:0px;}</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script>
+			function regSave(table, wherename, where){
+				$.ajax({
+					url:"save.php?table="+table+"&wherename="+wherename+"&where="+where+"&newval"+newval,
+					dataType:"json", //html, xml,
+					success:function(result){
+						location.reload();
+
+					}
+			}
+			function regDel(table, wherename, where){
+				$.ajax({
+					url:"del.php?table="+table+"&wherename="+wherename+"&where="+where,
+					dataType:"json", //html, xml,
+					success:function(result){
+					
+					}
+			}
+			
+			
+			function getTable(table, page=0){			
+				console.log("query.php?table="+table+"&page="+page);
+				$.ajax({
+					url:"query.php?table="+table+"&page="+page,
+					dataType:"json", //html, xml,
+					success:function(result){
+						str="<table border=1>";
+						console.log(result);
+						
+						/*
+						result.forEach(x=>function(x){
+						console.log(x);
+							str+="<tr>";
+							x.forEach(y=>function(y){
+								str+="<td>"+result[x][y]+"</td>";
+							console.log(str);
+							});
+							str+="</tr>";
+						});
+						*/
+						
+
+						for (x in result[0]){
+							console.log(x);
+							str+="<tr>";
+							str+="<td><input type=text value='"+result[0][x]['city']+"'></input></td>";
+							str+="<td><input type=text value='"+result[0][x]['phone']+"'></input></td>";
+							str+="<td>"+'<img src="https://cdn1.iconfinder.com/data/icons/ios-11-glyphs/30/save-512.png" style="height:15px" onclick="regSave('+result[0][x]['officeCode']+')"></td>';
+							str+="<td>"+'<img src="https://cdn.icon-icons.com/icons2/1808/PNG/512/trash-can_115312.png" style="height:15px" onclick="regDel('+result[0][x]['officeCode']+')">'+"</td>";
+
+							
+							str+="</tr>";
+						}
+						
+						
+						str+="</table>"
+						qlen=result[1];
+						if (page >=qlen-5){
+							startpage=qlen-10;
+							endpage=qlen;
+							
+						} else if (page>=5){
+							startpage=page-5;
+							endpage=page+5;
+
+						} else{
+							startpage=0;
+							endpage=10;
+	
+						} 
+						if (startpage<0){
+							startpage=0;
+						}	
+						str+=`<button onclick='getTable("${table}", 0)'><<</button><span> </span><button onclick='getTable("${table}", ${page-1})'><</a><span> </span>`;
+						for (i=startpage;i<endpage;i++){
+							str+=`<button onclick='getTable("${table}", ${i})'>${i}</button><span> </span> ` ;
+						}
+						
+						str+= `<button onclick='getTable("${table}", ${page+1}) '>></a><span> </span><button onclick='getTable("${table}", ${qlen})'>>></a><span> </span>`;
+		
+						
+						
+						$("#div1").html(str);
+					}
+				})
+					
+
+			
+			}
+		
+		
+				
+		getTable("offices",0);
+		
+		</script>
+	</head>
+	<body>
+		<div id="div1"></div>
+
+	</body>
+
+</html>

@@ -1,0 +1,45 @@
+<html>
+	<head>
+		<script>
+
+			vec=prompt("ingresa lista de numeros separados por coma");
+			
+			arr=vec.split(',').map(Number);
+			fullarray=[];
+			str="<table>";
+			for (y=0;y<arr.length;y++){
+				subarray=[];
+				str+="<tr>";
+				for (x=0;x<arr.length;x++){
+					if ((x==y)||(x==arr.length-1-y) ){
+						if ((y)==(arr.length-1-y) ){
+							subarray.push(arr[y]*2);
+							str+="<td>" +arr[y]*2+"</td>";
+						} else {
+							subarray.push(arr[y]);
+							str+="<td>" +arr[y]+"</td>";
+						}
+					} else {
+						subarray.push('');
+						str+="<td></td>";
+					}
+					
+				}
+				fullarray.push(subarray);
+				str+="</tr>";
+			}
+			console.log(fullarray);
+			document.write(str)
+				/*
+			}
+			
+			str="<table>"
+			for (x=arr.length;x>0;x--){
+				
+			}
+			*/
+			
+		</script>
+	</head>
+	<body></body>
+</html>

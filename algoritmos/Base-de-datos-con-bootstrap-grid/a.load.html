@@ -1,0 +1,124 @@
+<html>
+	<head>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<style>
+		.col {
+			
+			overflow:hidden;
+		}
+		
+		.row{
+			border-style:solid;
+			border-width:1px;
+			border-color:gray;
+			border-radius:8px;
+			margin:2px;
+		}
+		
+		ul{
+			margin:auto;
+		}
+	
+		
+		
+		</style>
+		<script>
+
+		
+			function getTable(table, page=0){			
+
+				$.ajax({
+					url:"query.php?table="+table+"&page="+page,
+					dataType:"json", //html, xml,
+					success:function(result){
+					
+						qlen=result[1];
+						if (page >=qlen-5){
+							startpage=qlen-10;
+							endpage=qlen;
+							
+						} else if (page>=5){
+							startpage=page-5;
+							endpage=page+5;
+
+						} else{
+							startpage=0;
+							endpage=10;
+	
+						}
+						str='<ul class="pagination">';
+						isdis = 0==page ? " disabled" : "";
+						str+=`<li class="page-item ${isdis}"><a class="page-link" onclick='getTable("${table}", 0)'  ${isdis}><<</a></<<></li><span> </span><li class="page-item ${isdis}"> <a class="page-link" onclick='getTable("${table}", ${page-1})'  ${isdis}><</a></li><span> </span>`;
+						for (i=startpage;i<endpage;i++){
+							isdis = i==page ? "disabled" : "";
+							isact = i==page ? " active" : "";
+							
+							if (i>=0){
+								str+=`<li class="page-item${isact} ${isdis}"><a class="page-link" onclick='getTable("${table}", ${i})' ${isdis}>${i}</a></li><span> </span> ` ;
+							}
+						}
+						isdis = qlen-1==page ? "disabled" : "";
+						str+= `<li class="page-item ${isdis}"><a class="page-link" onclick='getTable("${table}", ${page+1}) ' ${isdis}>></a></li><span> </span><li class="page-item ${isdis}"><a class="page-link" onclick='getTable("${table}", ${qlen-1})' ${isdis}>>></a></li><span> </span>`;
+						str+='</ul>';
+					
+						str+="<div class='container'>";
+						console.log(result);
+						
+						/*
+						result.forEach(x=>function(x){
+						console.log(x);
+							str+="<tr>";
+							x.forEach(y=>function(y){
+								str+="<td>"+result[x][y]+"</td>";
+							console.log(str);
+							});
+							str+="</tr>";
+						});
+						*/
+						ctr = table=="products" ? 0 : 99; 
+						str+="<div class='row'>"
+						$.each(result[0][0],function(z,y){
+							str+="<div class='col-md"+(ctr==5 ? "-4" : "")+"'><strong>"+z+"</strong></div>";
+							//console.log(str);
+							ctr++;
+						});
+						str+="</div>"
+						
+						for (x in result[0]){
+							ctr = table=="products" ? 0 : 99; 
+							str+="<div class='row'>";
+							$.each(result[0][x],function(z,y){
+							str+="<div class='col-md"+(ctr==5 ? "-4" : "")+"'>"+y+"</div>";
+							//console.log(str);
+							ctr++;
+							});
+							str+="</div>";
+						}
+						
+						
+						str+="</div>"
+						
+						
+						
+						$("#div1").html(str);
+					}
+				})
+					
+
+			
+			}
+		
+		
+		
+		
+		</script>
+	</head>
+	<body>
+		<div id="div1" class="d-flex justify-content-center flex-column"></div>
+		<button onclick='getTable("products",0);'>Productos</button>
+		<button onclick='getTable("productlines",0);'>productlines</button>
+		<button onclick='getTable("offices",0);'>offices</button>
+	</body>
+
+</html>

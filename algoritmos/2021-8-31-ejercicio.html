@@ -1,0 +1,22 @@
+<html>
+	<head>
+
+	<script>
+	/*31/8 Cuantas personas comienzan con la letra P, cuantas con la B y cuantas contienen ambas
+	*/
+	var vec = Array("Pablo","Juana", "Dario", "Pedro");
+	var counterp=0;
+	var counterb=0;
+	var countera=0;
+	for (var x = 0;x<vec.length;x++){
+		if (vec[x].charAt(0)=='P') counterp++;
+		if (vec[x].charAt(0)=='D') counterb++;
+		if ((vec[x].includes('p')||vec[x].includes('P'))&&(vec[x].includes('D')||vec[x].includes('d'))) countera++;
+	}
+	document.write(`${counterp} empiezan con "P", ${counterb} empiezan con "B", y ${countera} contienen ambas letras `);
+	</script>
+	</head>
+	<body>
+
+	</body>
+</html>

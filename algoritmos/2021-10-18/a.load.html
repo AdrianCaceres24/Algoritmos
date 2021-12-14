@@ -1,0 +1,86 @@
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script>
+		
+			function getTable(table, page=0){			
+
+				$.ajax({
+					url:"query.php?table="+table+"&page="+page,
+					dataType:"json", //html, xml,
+					success:function(result){
+						str="<table border=1>";
+						console.log(result);
+						
+						/*
+						result.forEach(x=>function(x){
+						console.log(x);
+							str+="<tr>";
+							x.forEach(y=>function(y){
+								str+="<td>"+result[x][y]+"</td>";
+							console.log(str);
+							});
+							str+="</tr>";
+						});
+						*/
+						
+						str+="<tr>"
+						$.each(result[0][0],function(z,y){
+							str+="<th>"+z+"</th>";
+							console.log(str);
+						});
+						str+="</tr>"
+						for (x in result[0]){
+							str+="<tr>";
+							$.each(result[0][x],function(z,y){
+							str+="<td>"+y+"</td>";
+							console.log(str);
+							});
+							str+="</tr>";
+						}
+						
+						
+						str+="</table>"
+						qlen=result[1];
+						if (page >=qlen-5){
+							startpage=qlen-10;
+							endpage=qlen;
+							
+						} else if (page>=5){
+							startpage=page-5;
+							endpage=page+5;
+
+						} else{
+							startpage=0;
+							endpage=10;
+	
+						}
+						
+						str+=`<button onclick='getTable("${table}", 0)'><<</button><span> </span><button onclick='getTable("${table}", ${page-1})'><</a><span> </span>`;
+						for (i=startpage;i<endpage;i++){
+							str+=`<button onclick='getTable("${table}", ${i})'>${i}</button><span> </span> ` ;
+						}
+						
+						str+= `<button onclick='getTable("${table}", ${page+1}) '>></a><span> </span><button onclick='getTable("${table}", ${qlen})'>>></a><span> </span>`;
+		
+						
+						
+						$("#div1").html(str);
+					}
+				})
+					
+
+			
+			}
+		
+		
+		
+		
+		</script>
+	</head>
+	<body>
+		<div id="div1"></div>
+		<button onclick='getTable("products",3);'>Productos</button>
+	</body>
+
+</html>

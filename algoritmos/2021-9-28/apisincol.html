@@ -1,0 +1,77 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    -->
+    <style>
+        .row img{
+            width:70%;
+            
+        }
+        body{
+            background-color: darkslategrey;
+        }
+        .dsqr{
+            background-color: white;
+            border-radius: 8px;
+            height: 100px;
+            width: 80px;
+            text-align: center;
+            padding-top: 0.1px;
+        }
+        p{
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        .temp{
+            font-size: 12px;
+        }
+        .temp span{
+            color:gray;
+        }
+
+        .dsqr *{
+            margin:0px;
+        }
+    </style>
+    <script>
+        const days=["dom","lun","mar","mié","jue","vie","sáb"]
+        function printfromapi(div){
+            
+            $.ajax(
+                    {
+                        url:"https://api.darksky.net/forecast/b4497c8a6b18bf75776b7fd997f2b90a/-34.6103138,-58.4076534?lang=es&units=ca",
+                        dataType:"json",
+                        success: function(result){
+                            str="";
+                            str+='<table><tr>';
+                                for (x=0;x<8;x++){
+                                    str+="<td><div class='dsqr'><p>"+days[new Date(result["daily"]["data"][x]["time"]*1000).getDay()]+"</p><img src='img/"+result["daily"]["data"][x]["icon"]+".svg' ><p class='temp'>"+Math.round(result["daily"]["data"][x]["temperatureMax"])+"°.  <span>"+Math.round(result["daily"]["data"][x]["temperatureMin"])+"°.</span></p></div></td><td>  </td>"; //$(div).html()
+
+                                }
+                                
+                                str+='</tr></table>';
+                                $(div).append(str);
+                        }
+                    }   
+                
+                );
+        }
+    </script>
+</head>
+<body>
+    <button onclick="printfromapi('.row')"></button> <!-- $(#id).onclick({    })-->
+    <div class="row"></div>
+
+
+
+</body>
+</html>

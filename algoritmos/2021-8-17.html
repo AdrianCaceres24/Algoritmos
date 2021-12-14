@@ -1,0 +1,50 @@
+
+
+<html>
+	<head>
+		<script>
+			/*nomyapellido = "pablo discella"
+			vec = nomyapellido.split(" "); //split en espacio blanco
+			
+			fecha= "10/5/2015"
+			vec = fecha.split("/");
+			
+			
+			document.setCursorPosition(4,1);
+			document.write("hola");
+	
+			var suma = 0;
+			var texto = "10,17,5,44,33,65,2"
+			vec = fecha.split(",");
+			vec = vec.map(Number)
+			if (vec == [10,17,5,44,33,65,2]){
+				document.write(son iguales);
+			}
+			
+			vec = [10,17,5,44,33,65,2]
+			
+			for (x=0;x<vec.length;x++){
+				suma +=vec[x];
+			}*/
+			
+			$("#btn1").click(function(){
+				$.ajax({
+					url:'url de api',
+					dataType:'json',
+					success: function(data){
+						$('#muestra_de_pagina').html(data)
+					},
+					statusCode: {
+						200:function(){},
+						404:function(alert('page not fond')){}
+,					}
+				})
+			})
+			
+	
+		</script>
+	</head>
+	<body>
+
+	</body>
+</html>

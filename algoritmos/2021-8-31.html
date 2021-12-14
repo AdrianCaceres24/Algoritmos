@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        String.prototype.replaceAt = function(index, replacement) {
+            if (index >= this.length) {
+                return this.valueOf();
+            }
+        
+            return this.substring(0, index) + replacement + this.substring(index + 1);
+        }
+        $(document).ready(function(){
+            array_numerosI = [];
+            espaciador = [];
+            numeroF = parseInt(prompt("Ingrese el numero que va a querer tener (Que no sea tan grande)"));            
+            for(a = 0; a < numeroF; a++){
+                numeros = parseInt(prompt("Escriba ahora los numeros de 1 en 1 hasta el numero final que eligio previamente."));
+                array_numerosI.push(numeros);
+            }
+            var s = "";
+            var impar = true;
+            if(numeroF % 2 == 0)
+                impar = false
+
+            for(x1 = 0, x2 = numeroF - 1; x1 < array_numerosI.length; x1++, x2--){
+                espaciador.push("⠀".repeat(array_numerosI.length));                
+                s = espaciador[x1];
+                if(x1 == parseInt(numeroF/2) && impar == true) {                    
+                    s = s.replaceAt(x2, array_numerosI[x1]*2);
+                } else {
+                    s = s.replaceAt(x1, array_numerosI[x1]);                
+                    s = s.replaceAt(x2, array_numerosI[x1]);
+                }
+                espaciador[x1] = s;                                
+            }
+            cadena = "<div class = r2>"
+            for(i = 0; i < array_numerosI.length; i++){
+                cadena += (espaciador[i] + "<br>");
+            }
+            cadena += "</div>"
+            $(".resultado").html(cadena);
+        });
+    </script>
+</head>
+<body>
+    <div class = "container-fluid">
+        <h1>Vamos a hacer una "escalera" de numeros, numeros en diagonal!</h1>
+        <div class = "resultado"></div>
+    </div>
+</body>
+</html>
